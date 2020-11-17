@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm-openhab-cloud.fullname" . }}-app
+  labels:
+    {{- include "helm-openhab-cloud.labels" . | nindent 4 }}
+spec:
+  replicas: {{ default "1"  .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm-openhab-cloud.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "helm-openhab-cloud.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.app.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "helm-openhab-cloud.serviceAccountName" . }}-app
+      securityContext:
+        {{- toYaml .Values.app.podSecurityContext | nindent 8 }}
+      containers:
+        - name: app
+          args:
+            TZ: Europe/Copenhagen
+          securityContext:
+            {{- toYaml .Values.app.securityContext | nindent 12 }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            - name: app
+              containerPort: 3000
+              protocol: TCP
+          workingDir: /opt/openhabcloud
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

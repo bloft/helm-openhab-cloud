@@ -1,0 +1,91 @@
+# Default values for helm-openhab-cloud.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app:
+  image:
+    repository: docker.io/openhab/openhabcloud-app
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  env:
+    - name: DOMAIN_NAME
+      value: test
+    - name: EXPRESS_KEY
+      value: Secret
+  
+  podSecurityContext: {}
+    # fsGroup: 2000
+    
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 3000
+
+mongodb:
+  image:
+    repository: bitnami/mongodb
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  podSecurityContext: {}
+    # fsGroup: 2000
+    
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 27017
+
+
+redis:
+  image:
+    repository: bitnami/redis
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  podSecurityContext: {}
+    # fsGroup: 2000
+    
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  env:
+    - name: REDIS_PASSWORD
+      value: 123_openHAB
+
+  service:
+    type: ClusterIP
+    port: 6379
+
+serviceAccount:
+  create: true
+  name:
+
+ingress:
+  enabled: true
+  annotations: 
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  host: chart-example.local
+  tls: 
+    secretName: chart-example-tls
+

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm-openhab-cloud.fullname" . }}-app
+  labels:
+    {{- include "helm-openhab-cloud.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.app.service.type }}
+  ports:
+    - port: {{ .Values.app.service.port }}
+      targetPort: app
+      protocol: TCP
+      name: app
+  selector:
+    {{- include "helm-openhab-cloud.selectorLabels" . | nindent 4 }}

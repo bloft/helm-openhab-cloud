@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helm-openhab-cloud.fullname" . }}-mongodb
+  labels:
+    {{- include "helm-openhab-cloud.labels" . | nindent 4 }}
+spec:
+  replicas: {{ default "1"  .Values.mongodb.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "helm-openhab-cloud.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "helm-openhab-cloud.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.mongodb.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "helm-openhab-cloud.serviceAccountName" . }}-mongodb
+      securityContext:
+        {{- toYaml .Values.mongodb.podSecurityContext | nindent 8 }}
+      containers:
+        - name: mongodb
+          securityContext:
+            {{- toYaml .Values.mongodb.securityContext | nindent 12 }}
+          image: "{{ .Values.mongodb.image.repository }}:{{ .Values.mongodb.image.tag }}"
+          imagePullPolicy: {{ .Values.mongodb.image.pullPolicy }}
+          args:
+            - mongod
+            - --smallfiles
+            - --bind_ip_all
+          ports:
+            - name: port
+              containerPort: 27017
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongodb-data
+            - mountPath: /data/configdb
+              name: mongodb-config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - emptyDir: {}
+          name: mongodb-data
+        - emptyDir: {}
+          name: mongodb-config
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
