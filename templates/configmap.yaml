@@ -42,13 +42,13 @@ data:
           "pass" : "${SMTP_PASSWORD}"
         },
         "mongodb": {
-            "hosts": ["mongodb"],
+            "hosts": ["{{ include "helm-openhab-cloud.fullname" . }}-mongodb"],
             "db": "openhab",
             "user": "openhab",
             "password": "123_openHAB"
         },
         "redis": {
-            "host": "openhab-cloud-helm-openhab-cloud-redis",
+            "host": "{{ include "helm-openhab-cloud.fullname" . }}-redis",
             "port": "6379",
             "password": "123_openHAB"
         },
