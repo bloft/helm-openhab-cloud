@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
 data:
-  config.json.template: |-
+  config.json: |-
     {
         "system": {
           "host": {{ .Values.ingress.host | quote }},
