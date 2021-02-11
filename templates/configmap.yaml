@@ -48,7 +48,7 @@ data:
             "password": "123_openHAB"
         },
         "redis": {
-            "host": "redis",
+            "host": "openhab-cloud-helm-openhab-cloud-redis",
             "port": "6379",
             "password": "123_openHAB"
         },
