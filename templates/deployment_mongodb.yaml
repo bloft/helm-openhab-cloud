@@ -29,7 +29,6 @@ spec:
           imagePullPolicy: {{ .Values.mongodb.image.pullPolicy }}
           args:
             - mongod
-            - --smallfiles
             - --bind_ip_all
           ports:
             - name: port
