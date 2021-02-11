@@ -39,6 +39,10 @@ spec:
               name: mongodb-data
             - mountPath: /data/configdb
               name: mongodb-config
+          {{- if .Values.mongodb.env }}
+          env:
+            {{- toYaml .Values.mongodb.env | nindent 12 }}
+          {{- end}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

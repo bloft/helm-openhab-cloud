@@ -52,7 +52,7 @@ mongodb:
 
   env:
     - name: MONGODB_USERNAME
-      value: openHAB
+      value: openhab
     - name: MONGODB_PASSWORD
       value: 123_openHAB
     - name: MONGODB_DATABASE
