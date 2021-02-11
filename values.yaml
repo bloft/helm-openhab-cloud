@@ -90,7 +90,9 @@ serviceAccount:
 
 ingress:
   enabled: true
-  annotations: 
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" 
+    nginx.ingress.kubernetes.io/enable-global-auth: "false"
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
   host: chart-example.local
