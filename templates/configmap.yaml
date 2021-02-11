@@ -10,22 +10,13 @@ data:
           "port": "443",
           "protocol": "https",
           "logger" : {
-            "dir": "./logs",
-            "maxFiles" : "7d",
+            "type": "console"
             "level" : "debug",
-            "morganOption" : null
           },
           "subDomainCookies": false,
-          "muteNotifications": false
         },
         "express":{
           "key" : "${EXPRESS_KEY}"
-        },
-        "apn" : {
-          "gateway": "gateway.push.apple.com",
-          "cert": "certs/aps/aps_production_cert.pem",
-          "key": "certs/aps/aps_production_key.pem",
-          "passphrase": "passphrase"
         },
         "gcm" : {
           "jid": "something@gcm.googleapis.com",
@@ -34,12 +25,6 @@ data:
         "ifttt" : {
           "iftttChannelKey" : "key",
           "iftttTestToken" : "token"
-        },
-        "mail": {
-          "host" : "smtp",
-          "port" : 465,
-          "user" : "${SMTP_USER}",
-          "pass" : "${SMTP_PASSWORD}"
         },
         "mongodb": {
             "hosts": ["{{ include "helm-openhab-cloud.fullname" . }}-mongodb"],
