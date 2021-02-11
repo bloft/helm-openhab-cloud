@@ -10,8 +10,8 @@ data:
           "port": "443",
           "protocol": "https",
           "logger" : {
-            "level" : "debug",
-            "type": "console"
+            "type": "console",
+            "level" : "debug"
           },
           "subDomainCookies": false
         },
