@@ -13,7 +13,7 @@ data:
             "level" : "debug",
             "type": "console"
           },
-          "subDomainCookies": false,
+          "subDomainCookies": false
         },
         "express":{
           "key" : "${EXPRESS_KEY}"
