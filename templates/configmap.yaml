@@ -29,8 +29,6 @@ data:
         "mongodb": {
             "hosts": ["{{ include "helm-openhab-cloud.fullname" . }}-mongodb"],
             "db": "openhab",
-            "user": "openhab",
-            "password": "123_openHAB"
         },
         "redis": {
             "host": "{{ include "helm-openhab-cloud.fullname" . }}-redis",
