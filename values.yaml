@@ -50,6 +50,14 @@ mongodb:
     type: ClusterIP
     port: 27017
 
+  env:
+    - name: MONGODB_USERNAME
+      value: openHAB
+    - name: MONGODB_PASSWORD
+      value: 123_openHAB
+    - name: MONGODB_DATABASE
+      value: openhab
+
 
 redis:
   image:
