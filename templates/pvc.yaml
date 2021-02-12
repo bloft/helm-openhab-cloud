@@ -11,7 +11,7 @@ metadata:
   {{- end }}
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.mongodb.persistence.size | quote }}
