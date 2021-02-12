@@ -37,8 +37,10 @@ spec:
           volumeMounts:
             - mountPath: /data/db
               name: mongodb-data
+              subPath: db
             - mountPath: /data/configdb
-              name: mongodb-config
+              name: mongodb-data
+              subPath: configdb
           {{- if .Values.mongodb.env }}
           env:
             {{- toYaml .Values.mongodb.env | nindent 12 }}
@@ -46,10 +48,13 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - emptyDir: {}
-          name: mongodb-data
-        - emptyDir: {}
-          name: mongodb-config
+        - name: mongodb-data
+        {{- if .Values.mongodb.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "helm-openhab-cloud.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

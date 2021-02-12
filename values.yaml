@@ -8,12 +8,6 @@ app:
     tag: latest
     pullPolicy: IfNotPresent
 
-  env:
-    - name: DOMAIN_NAME
-      value: test
-    - name: EXPRESS_KEY
-      value: Secret
-  
   podSecurityContext: {}
     # fsGroup: 2000
     
@@ -49,6 +43,12 @@ mongodb:
   service:
     type: ClusterIP
     port: 27017
+
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    size: 1Gi
+
 
   env:
     - name: MONGODB_USERNAME
