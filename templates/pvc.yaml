@@ -1,0 +1,19 @@
+{{- if .Values.mongodb.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "helm-openhab-cloud.fullname" . }}
+  labels:
+    {{- include "helm-openhab-cloud.labels" . | nindent 4 }}
+  {{- with .Values.mongodb.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.mongodb.persistence.size | quote }}
+  storageClassName: {{ .Values.mongodb.persistence.storageClassName }}
+{{- end -}}
