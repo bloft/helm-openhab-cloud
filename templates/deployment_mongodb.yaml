@@ -35,12 +35,8 @@ spec:
               containerPort: 27017
               protocol: TCP
           volumeMounts:
-            - mountPath: /data/db
+            - mountPath: /data
               name: mongodb-data
-              subPath: db
-            - mountPath: /data/configdb
-              name: mongodb-data
-              subPath: configdb
           {{- if .Values.mongodb.env }}
           env:
             {{- toYaml .Values.mongodb.env | nindent 12 }}
